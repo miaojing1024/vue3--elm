@@ -27,7 +27,9 @@
         </p>
       </div>
       <!-- 登录按钮 -->
-      <div class="login_btn"><button>登录</button></div>
+      <div class="login_btn">
+        <button :disabled="isClick" @click="handleLogin">登录</button>
+      </div>
     </div>
   </div>
 </template>
@@ -42,28 +44,86 @@ export default {
     return {
       phone: "",
       verifyCode: "",
-      error: {},
+      error: {
+        phone: "",
+      },
       disabled: false,
       btnTitle: "获取验证码",
     };
   },
+  computed: {
+    isClick() {
+      if (!this.phone || !this.verifyCode) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+  },
   methods: {
+    // 验证码判断
     getVerifyCode() {
       let regexp = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/;
       if (!this.phone) {
-        this.error = {
-          phone: "手机号码不能为空",
-        };
-        // this.error.phone = "请输入手机号码";
-        console.log(this.error.phone);
+        this.error.phone = "手机号码不能为空";
       } else if (!regexp.test(this.phone)) {
-        this.error.phone = "请输入正确的手机号码";
-        console.log(this.error.phone);
+        this.error.phone = "请填写正确的手机号码";
       } else {
         // 获取验证码
-        this.error = {}
-        console.log('获取验证码');
+        this.error.phone = "";
+        this.validateBtn();
+        // 发送网络请求
+        // this.$axios
+        //   .post("/api/posts/sms_send", {
+        //     tpl_id: "234057",
+        //     key: "5c9b59ad0a4bb6235a0dd2c493dba80e",
+        //     phone: this.phone,
+        //   })
+        //   .then((res) => {
+        //     console.log(res);
+        //   });
       }
+    },
+    // 获取验证码倒计时
+    validateBtn() {
+      let time = 60;
+      let timer = setInterval(() => {
+        if (time == 0) {
+          this.disabled = false;
+          this.btnTitle = "获取验证码";
+          clearInterval(timer);
+        } else {
+          this.disabled = true;
+          this.btnTitle = time + "秒后重试";
+          time--;
+        }
+      }, 1000);
+    },
+    // 登录按钮
+    handleLogin() {
+      // 取消错误提醒
+      this.error = {};
+      // 接口更新 直接模拟登录成功 存入localstorage
+      localStorage.setItem("ele_login", true);
+      this.$router.push("/");
+      // 发送请求
+      // this.$axios
+      //   .post("/api/posts/sms_back", {
+      //     phone: this.phone,
+      //     code: this.verifyCode,
+      //   })
+      //   .then((res) => {
+      //     console.log(res);
+      //     // 检验成功,设置登录信息,并且进行页面跳转
+      //     localStorage.setItem("ele_login", true);
+      //     this.$router.push("/");
+      //   })
+      //   .catch((err) => {
+      //     //返回错误信息
+      //     this.error = {
+      //       code: err.response.data.msg,
+      //     };
+      //   });
     },
   },
 };
@@ -102,5 +162,8 @@ export default {
   font-size: 14px;
   border: none;
   outline: none;
+}
+.login_btn button[disabled] {
+  background: #8bda81;
 }
 </style>

@@ -12,7 +12,7 @@
         @input="$emit('input', $event.target.value)"
       />
       <!-- 输入框后面按钮 -->
-      <button v-if="btnTitle" :disa111bled="disabled" @click="$emit('btnClick')">
+      <button v-if="btnTitle" :disabled="disabled" @click="$emit('btnClick')">
         {{ btnTitle }}
       </button>
     </div>
@@ -67,5 +67,6 @@ export default {
 .invalid-feedback {
   color: red;
   padding-top: 5px;
+  width: fit-content;
 }
 </style>
