@@ -1,9 +1,8 @@
 <template>
   <div class="header">
-    地址
     <!-- 左侧返回 -->
     <div class="header-button is-left" v-show="isLeft">
-      <i class="fa fa-checvron-left"></i>
+      <i class="fa fa-chevron-left"></i>
       <button @click="$router.go(-1)">返回</button>
     </div>
     <!-- 中间标题 -->
@@ -23,10 +22,12 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="stylus">
+@import '../styles/index.styl';
+
 .header {
   align-items: center;
-  background-color: #009eef;
+  background-color: $main-color;
   box-sizing: border-box;
   color: #fff;
   display: flex;
@@ -40,7 +41,9 @@ export default {
   position: fixed;
   width: 100%;
   top: 0;
+  z-index: 99;
 }
+
 .header-button button {
   background-color: transparent;
   border: 0;
@@ -51,9 +54,11 @@ export default {
   font-size: inherit;
   outline: none;
 }
+
 .header-title {
   flex: 1;
 }
+
 .is-left {
   text-align: left;
 }

@@ -23,7 +23,9 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang='stylus'>
+@import '../styles/index.styl';
+
 .tabbar {
   height: 45px;
   box-sizing: border-box;
@@ -43,29 +45,35 @@ export default {
   display: flex;
   text-align: center;
 }
+
 .tab-item {
   display: block;
   padding: 3px 0;
   flex: 1;
 }
+
 .tab-item-icon {
   width: 20px;
   height: 20px;
   margin: 0 auto 5px;
 }
+
 .tab-item-icon i {
   font-size: 16px;
 }
+
 .tab-item-label {
   color: inherit;
   font-size: 10px;
   line-height: 1;
 }
+
 a {
   text-decoration: none;
   color: #999;
 }
+
 .is-selected {
-  color: #009eef;
+  color: $main-color;
 }
 </style>

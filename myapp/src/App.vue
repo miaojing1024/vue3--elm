@@ -64,7 +64,10 @@ export default {
                     },
                     formattedAddress: data.regeocode.formattedAddress,
                   });
-                  self.$store.dispatch("setAddress", data.regeocode.formattedAddress);
+                  self.$store.dispatch(
+                    "setAddress",
+                    data.regeocode.formattedAddress
+                  );
                 }
               });
             });
@@ -76,12 +79,14 @@ export default {
 };
 </script>
 
-<style>
-html,
-body {
+<style lang='stylus'>
+@import './styles/index.styl';
+
+html, body {
   width: 100%;
   height: 100%;
 }
+
 #app {
   width: 100%;
   height: 100%;
