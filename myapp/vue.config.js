@@ -15,9 +15,10 @@ module.exports = {
         target: 'https://imissu.ke.qq.com/',
         /* 允许跨域 */
         changeOrigin: true,
+        pathRewrite: {
+          '^/api': ''
+        }
       },
-
-
     },
   }
 }

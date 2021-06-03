@@ -3,7 +3,7 @@
     <Header title="选择收货地址" :isLeft="true" />
     <div class="city_search">
       <div class="search">
-        <span class="city">
+        <span class="city" @click="$router.push('/city')">
           {{ city }}
           <i class="fa fa-angle-down"></i>
         </span>
@@ -18,9 +18,9 @@
     </div>
     <div class="area">
       <ul class="area_list" v-for="(item, index) in areaList" :key="index">
-        <li>
+        <li @click="selectAddress(item)">
           <h4>{{ item.name }}</h4>
-          <p>{{ item.district }}{{ item.addListener }}</p>
+          <p>{{ item.district }}{{ item.address }}</p>
         </li>
       </ul>
     </div>
@@ -58,6 +58,7 @@ export default {
     });
   },
   methods: {
+    // 智能联想地图
     searchPlace() {
       const self = this;
       // console.log(this.search_val)
@@ -75,6 +76,12 @@ export default {
           console.log(result);
         });
       });
+    },
+    // 选择地图
+    selectAddress(item) {
+      // 设置地址
+      this.$store.dispatch("setAddress", item.district + item.address + item.name);
+      this.$router.push("/home")
     },
   },
 };

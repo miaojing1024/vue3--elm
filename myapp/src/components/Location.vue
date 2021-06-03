@@ -1,9 +1,11 @@
 <template>
-  <div class="location">
-    <div class="title">当前定位</div>
-    <div class="des">
-      <i class="fa fa-location-arrow"></i>
-      <span>{{ address }}</span>
+  <div>
+    <div class="location">
+      <div class="title">当前定位</div>
+      <div class="des">
+        <i class="fa fa-location-arrow"></i>
+        <span>{{ address }}</span>
+      </div>
     </div>
   </div>
 </template>
