@@ -5,11 +5,15 @@
         <i class="fa fa-search"></i>
         <input v-model="city_value" type="text" placeholder="输入城市名" />
       </div>
-      <button @click="$router.go(-1)">取消</button>
+      <button
+        @click="$router.push({ name: 'Address', params: { city: city } })"
+      >
+        取消
+      </button>
     </div>
-    <div style="height: 100%">
+    <div style="height: 100%" v-if="searchList.length == 0">
       <div class="location">
-        <Location :address="city" />
+        <Location :address="city" @click="selectCity({ name: city })" />
       </div>
       <Alphabet
         @selectCity="selectCity"
@@ -17,6 +21,17 @@
         :cityInfo="cityInfo"
         :keys="keys"
       />
+    </div>
+    <div class="search_list" v-else>
+      <ul>
+        <li
+          @click="selectCity(item)"
+          v-for="(item, index) in searchList"
+          :key="index"
+        >
+          {{ item.name }}
+        </li>
+      </ul>
     </div>
   </div>
 </template>
@@ -42,7 +57,15 @@ export default {
       city_value: "",
       cityInfo: null,
       keys: [],
+      allCities: [], // 接收所需要的所有数据的city名
+      searchList: [], // 存放搜索关键字对应的城市名
     };
+  },
+  watch: {
+    city_value() {
+      console.log(this.city_value);
+      this.searchCity();
+    },
   },
   created() {
     // this.getCityInfo();
@@ -187,7 +210,6 @@ export default {
           { name: "上海", id: 4, abbr: "SH" },
         ],
       };
-      console.log(this.cityInfo);
       // 模拟数据
       this.keys = [
         "A",
@@ -221,6 +243,26 @@ export default {
       this.$nextTick(() => {
         this.$refs.allcity.initScroll();
       });
+      // 关键字对应显示数据
+      /// 存储所有城市,用来搜索遍历
+      this.keys.forEach((element) => {
+        this.cityInfo[element].forEach((city) => {
+          this.allCities.push(city);
+        });
+      });
+    },
+    searchCity() {
+      console.log(this.city_value);
+      if (!this.city_value) {
+        // 如果搜索框为空,数组置空
+        this.searchList = [];
+      } else {
+        // 根据输入框的关键字检索城市 并存入到searchList数组
+        this.searchList = this.allCities.filter((item) => {
+          return item.name.indexOf(this.city_value) != -1;
+        });
+        console.log(this.searchList);
+      }
     },
   },
 };
@@ -270,5 +312,13 @@ export default {
   padding: 8px 16px;
   height: 65px;
   box-sizing: border-box;
+}
+.search_list {
+  background: #fff;
+  padding: 5px 16px;
+}
+.search_list li {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
 }
 </style>

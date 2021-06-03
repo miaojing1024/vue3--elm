@@ -14,7 +14,7 @@
           placeholder="小区/写字楼/学校等"
         />
       </div>
-      <Location :address="address" />
+      <Location :address="address" @click="selectAddress" />
     </div>
     <div class="area">
       <ul class="area_list" v-for="(item, index) in areaList" :key="index">
@@ -79,9 +79,16 @@ export default {
     },
     // 选择地图
     selectAddress(item) {
-      // 设置地址
-      this.$store.dispatch("setAddress", item.district + item.address + item.name);
-      this.$router.push("/home")
+      if (item) {
+        // 设置地址
+        this.$store.dispatch(
+          "setAddress",
+          item.district + item.address + item.name
+        );
+      } else {
+        this.$store.dispatch("setAddress", this.address);
+      }
+      this.$router.push("/home");
     },
   },
 };
