@@ -7,11 +7,11 @@
       </div>
       <button @click="$router.go(-1)">取消</button>
     </div>
-    <div>
+    <div style="height: 100%">
       <div class="location">
         <Location :address="city" />
       </div>
-      <Alphabet :cityInfo="cityInfo" :keys="keys" />
+      <Alphabet ref="allcity" :cityInfo="cityInfo" :keys="keys" />
     </div>
   </div>
 </template>
@@ -56,6 +56,10 @@ export default {
           this.keys.pop();
           // 对keys排序 排出来的为A-Z的数组
           this.keys.sort();
+          // 请求完后调用better-scroll
+          this.$nextTick(()=>{
+            this.$refs.allcity.initScroll()
+          }) 
         })
         .catch((err) => {
           console.log(err);

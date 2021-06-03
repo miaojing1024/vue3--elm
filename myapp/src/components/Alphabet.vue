@@ -1,5 +1,5 @@
 <template>
-  <div class="alphabet" v-if="cityInfo">
+  <div class="alphabet" ref="area_scroll" v-if="cityInfo">
     <!-- 字母表 -->
     <div class="scroll_wrap">
       <!-- 热门城市 -->
@@ -28,19 +28,32 @@
   </div>
 </template>
 <script>
+import BScroll from "better-scroll";
 export default {
   name: "Alphabet",
   props: {
     cityInfo: Object,
     keys: Array,
   },
+  data() {
+    return {
+      scroll: null,
+    };
+  },
   created() {},
-  methods: {},
+  methods: {
+    // initScroll触发时机在数据加载完成后触发 则在city页面数据完成后请求
+    initScroll() {
+      this.scroll = new BScroll(this.$refs.area_scroll, {
+        click: true,
+      });
+    },
+  },
 };
 </script>
 
 <style scoped>
-.area {
+.alphabet {
   margin-top: 10px;
   box-sizing: border-box;
   padding: 0 16px;
