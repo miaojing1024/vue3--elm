@@ -11,7 +11,12 @@
       <div class="location">
         <Location :address="city" />
       </div>
-      <Alphabet ref="allcity" :cityInfo="cityInfo" :keys="keys" />
+      <Alphabet
+        @selectCity="selectCity"
+        ref="allcity"
+        :cityInfo="cityInfo"
+        :keys="keys"
+      />
     </div>
   </div>
 </template>
@@ -57,13 +62,16 @@ export default {
           // 对keys排序 排出来的为A-Z的数组
           this.keys.sort();
           // 请求完后调用better-scroll
-          this.$nextTick(()=>{
-            this.$refs.allcity.initScroll()
-          }) 
+          this.$nextTick(() => {
+            this.$refs.allcity.initScroll();
+          });
         })
         .catch((err) => {
           console.log(err);
         });
+    },
+    selectCity(city) {
+      this.$router.push({ name: "Address", params: { city: city.name } });
     },
     mockData() {
       // 模拟数据
@@ -209,6 +217,10 @@ export default {
         "Y",
         "Z",
       ];
+      // 请求完后调用better-scroll
+      this.$nextTick(() => {
+        this.$refs.allcity.initScroll();
+      });
     },
   },
 };
